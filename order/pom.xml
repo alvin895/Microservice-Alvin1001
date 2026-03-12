@@ -8,11 +8,11 @@
 		<version>4.0.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.alvin</groupId>
-	<artifactId>produk</artifactId>
+	<groupId>com.alvin.order</groupId>
+	<artifactId>order</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>produk</name>
-	<description>Produk Service</description>
+	<name>order</name>
+	<description>Order Service</description>
 	<url/>
 	<licenses>
 		<license/>
