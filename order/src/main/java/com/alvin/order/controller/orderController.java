@@ -12,30 +12,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alvin.order.model.order;
-import com.alvin.order.service.orderService;
+import com.alvin.order.model.Order;
+import com.alvin.order.service.OrderService;
+import com.alvin.order.vo.ResponseTemplate;
 
 @RestController
 @RequestMapping("/api/order")
-public class orderController {
+public class OrderController {
     @Autowired
-    private orderService orderService;
+    private OrderService orderService;
 
     @GetMapping
-    public List<order> getAllOrder() {
-        return orderService.getAllOrder();
+    public List<Order> getAllOrders() {
+        return orderService.getAllOrders();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<order> getOrderById(@PathVariable Long id) {
-        order o = orderService.getOrderById(id);
-        return o != null ? ResponseEntity.ok(o) : ResponseEntity.notFound().build();
+    public ResponseEntity<ResponseTemplate> getOrderById(@PathVariable Long id) {
+        ResponseTemplate response = orderService.getOrderWithProdukById(id);
+        return response != null ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/produk/{id}")
+    public ResponseEntity<ResponseTemplate> getOrderWithProdukById(@PathVariable("id") Long id) {
+        ResponseTemplate response = orderService.getOrderWithProdukById(id);
+        return response != null ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public ResponseEntity<order> createOrder(@RequestBody order order) {
-        order created = orderService.createOrder(order);
-        return ResponseEntity.ok(created);
+    public Order createOrder(@RequestBody Order order) {
+        return orderService.createOrder(order);
     }
 
     @DeleteMapping("/{id}")

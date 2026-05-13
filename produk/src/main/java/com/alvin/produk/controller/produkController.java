@@ -22,8 +22,8 @@ public class produkController {
     private produkService produkService;
 
     @GetMapping
-    public List<produk> getAllprodukService(){
-        return produkService.getAllProduk();
+    public List<produk> getAllProduk() {
+        return produkService.getAllProduks();
     }
 
     @GetMapping("/{id}")
@@ -32,10 +32,9 @@ public class produkController {
         return produk != null ? ResponseEntity.ok(produk) : ResponseEntity.notFound().build();
     }
 
-   @PostMapping
-    public ResponseEntity<produk> createProduk (@RequestBody produk produk) {
-        produk createdProduk = produkService.createProduk(produk);
-        return ResponseEntity.ok(createdProduk);
+    @PostMapping
+    public produk createProduk(@RequestBody produk produk) {
+        return produkService.createProduk(produk);
     }
 
     @DeleteMapping("/{id}")
