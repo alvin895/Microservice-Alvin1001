@@ -1,0 +1,21 @@
+server.name: kibana
+
+server.host: "0.0.0.0"
+
+server.port: 5601
+
+elasticsearch.hosts:
+  - "http://elasticsearch:9200"
+
+monitoring.ui.container.elasticsearch.enabled: true
+
+i18n.locale: "en"
+
+logging.root.level: info
+
+logging.appenders.default.type: console
+
+logging.appenders.default.layout.type: json
+
+logging.root.appenders:
+  - default
