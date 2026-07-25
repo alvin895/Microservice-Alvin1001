@@ -1,8 +1,7 @@
-package com.alvin.produk.security;
+package com.alvin.gateway_service.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -23,14 +22,11 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/h2-console/**").permitAll()
-                        .requestMatchers("/actuator/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/produk/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/api/produk/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/api/produk/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/produk/**").hasRole("ADMIN")
+                        .requestMatchers("/api/auth/login", "/api/auth/register", "/api/auth/validate", "/actuator/**")
+                        .permitAll()
+                        .requestMatchers("/api/produk/**", "/api/order/**", "/api/pelanggan/**")
+                        .authenticated()
                         .anyRequest().authenticated())
-                .headers(headers -> headers.frameOptions(frame -> frame.disable()))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

@@ -226,6 +226,9 @@ services:
       GF_SECURITY_ADMIN_USER: admin
       GF_SECURITY_ADMIN_PASSWORD: admin
 
+    volumes:
+    - grafana-data:/var/lib/grafana
+
     depends_on:
       - prometheus
 
@@ -250,6 +253,7 @@ services:
       - ES_JAVA_OPTS=-Xms512m -Xmx512m
 
     volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
       - ./elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
 
     ports:
@@ -324,3 +328,7 @@ services:
 networks:
   monitoring:
     driver: bridge
+
+volumes:
+  grafana-data:
+  elasticsearch-data:

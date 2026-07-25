@@ -37,7 +37,7 @@ public class ConsumerService {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 
             helper.setFrom("alvinsatriaghaza@gmail.com");
-            helper.setTo("muhammadraihan.mrpw@gmail.com");
+            helper.setTo("fadhirayuliandari14@gmail.com");
             helper.setSubject("Notifikasi Order Baru - Order #" + idOrder);
 
             String html = "<div style='font-family:Arial,sans-serif; padding:20px; background-color:#f5f5f5;'>" +

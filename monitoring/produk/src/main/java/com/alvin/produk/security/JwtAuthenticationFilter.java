@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,15 +25,13 @@ public class JwtAuthenticationFilter
 
     @Override
     protected void doFilterInternal(
-            @NonNull HttpServletRequest request,
-            @NonNull HttpServletResponse response,
-            @NonNull FilterChain filterChain
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain
     ) throws ServletException, IOException {
 
         final String authHeader =
                 request.getHeader("Authorization");
-
-        String jwt = null;
 
         if (
                 authHeader == null
@@ -50,7 +47,7 @@ public class JwtAuthenticationFilter
             return;
         }
 
-        jwt = authHeader.substring(7);
+        String jwt = authHeader.substring(7);
 
         try {
 

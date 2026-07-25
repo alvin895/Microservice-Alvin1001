@@ -1,4 +1,4 @@
-package com.alvin.produk.security;
+package com.alvin.pelanggan.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,10 +25,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/produk/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/api/produk/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/api/produk/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/produk/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/pelanggan/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/pelanggan/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/pelanggan/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/pelanggan/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .headers(headers -> headers.frameOptions(frame -> frame.disable()))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

@@ -13,76 +13,63 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    public SecurityConfig(
-            JwtAuthenticationFilter jwtAuthenticationFilter
-    ) {
-
-        this.jwtAuthenticationFilter =
-                jwtAuthenticationFilter;
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(
-            HttpSecurity http
-    ) throws Exception {
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http
+    http
+        .csrf(csrf -> csrf.disable())
 
-                .csrf(csrf -> csrf.disable())
-
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(
-                                SessionCreationPolicy.STATELESS
-                        )
-                )
-
-                .authorizeHttpRequests(auth -> auth
-
-                .requestMatchers(
-                        "/actuator/**",
-                        "/h2-console/**"
-                )
-                .permitAll()
-
-                .requestMatchers(
-                        HttpMethod.GET,
-                        "/api/order/**"
-                )
-                .hasAnyRole(
-                        "USER",
-                        "ADMIN"
-                )
-
-                .requestMatchers(
-                        HttpMethod.POST,
-                        "/api/order/**"
-                )
-                .hasAnyRole(
-                        "USER",
-                        "ADMIN"
-                )
-
-                .requestMatchers(
-                        HttpMethod.DELETE,
-                        "/api/order/**"
-                )
-                .hasRole("ADMIN")
-
-                .anyRequest()
-                .authenticated()
+        .sessionManagement(session ->
+                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         )
 
-                .headers(headers ->
-                        headers.frameOptions(
-                                frame -> frame.disable()
-                        )
-                )
+        .authorizeHttpRequests(auth -> auth
 
-                .addFilterBefore(
-                        jwtAuthenticationFilter,
-                        UsernamePasswordAuthenticationFilter.class
-                );
+            .requestMatchers(
+                    "/actuator/**",
+                    "/h2-console/**"
+            ).permitAll()
 
-        return http.build();
-    }
+            // USER & ADMIN boleh melihat order
+            .requestMatchers(
+                    HttpMethod.GET,
+                    "/api/order/**"
+            ).hasAnyRole("USER","ADMIN")
+
+            // USER & ADMIN boleh membuat order
+            .requestMatchers(
+                    HttpMethod.POST,
+                    "/api/order/**"
+            ).hasAnyRole("USER","ADMIN")
+
+            // ADMIN edit
+            .requestMatchers(
+                    HttpMethod.PUT,
+                    "/api/order/**"
+            ).hasRole("ADMIN")
+
+            // ADMIN hapus
+            .requestMatchers(
+                    HttpMethod.DELETE,
+                    "/api/order/**"
+            ).hasRole("ADMIN")
+
+            .anyRequest().authenticated()
+        )
+
+        .headers(headers ->
+                headers.frameOptions(frame -> frame.disable())
+        )
+
+        .addFilterBefore(
+                jwtAuthenticationFilter,
+                UsernamePasswordAuthenticationFilter.class
+        );
+
+    return http.build();
+}
 }
